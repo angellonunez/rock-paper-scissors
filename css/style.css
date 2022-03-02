@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    font-size: 62.5%;
+    font-family: 'Nunito', sans-serif;
+}
+
+header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 700;
+    color: #af2b2b;
+}
+
+.block-text {
+    text-align: center;
+}
+
+.block-text > p {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.figures {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 60px;
+}
+.block {
+    height: 200px;
+    width: 200px;
+    border: 5px solid red;
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    height: 150px;
+}
