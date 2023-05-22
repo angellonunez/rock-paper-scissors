@@ -1,57 +1,70 @@
 let options = ['rock', 'paper', 'scissors']
+let computerChoiceDisplay = document.getElementById('computer-choice');
+let userChoiceDisplay = document.getElementById('player-choice');
+let resultDisplay = document.getElementById('result');
+let totalScorePlayer = document.getElementById('total-score-player');
+let totalScoreComputer = document.getElementById('total-score-computer');
+let finalResult = document.getElementById('final-result');
+let possibleChoices = document.querySelectorAll('button');
+let userChoice;
+let computerChoice;
+let result;
+let userScore = 0;
 let computerScore = 0;
-let playerScore = 0;
 
-let playRound = () => {
+let rock = document.getElementById('rock');
+let paper = document.getElementById('paper');
+let scissors = document.getElementById('scissors');
 
-// getComputerChoice() is a function that allows you to get a random element from the array options. Math.random() is the most important function to get a pseudo-random number between 0 (inclusive) to 1 (exclusive), but Math.floor() is necessary because it rounds down and returns the largest integer smaller than or equal to the given number.
-    let getComputerChoice = () => {
-        return options[Math.floor(Math.random() * options.length)];
-    }
+possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
+    userChoice = e.target.id;
+    userChoiceDisplay.innerHTML = `Your Choice: ${userChoice}`
+    generateComputerChoice();
+    getResult();
+}))
 
-    let getPlayerChoice = () => {
-        let playerHand = prompt('Select your hand - Rock, paper or scissors?:');
-        return playerHand;
-    }
+function generateComputerChoice() {
+    const randomOption = options[Math.floor(Math.random() * options.length)];
+    computerChoice = randomOption;
+    computerChoiceDisplay.innerHTML = `Computer Choice: ${computerChoice}`;
+}
 
-    let playerSelection = getPlayerChoice().toLowerCase();
-    let computerSelection = getComputerChoice();
-    if (playerSelection === 'rock' && computerSelection === 'paper') {
-        computerScore++;
-        console.log('You Lose! Paper beats Rock');
-    } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-        computerScore++;
-        console.log('You Lose! Scissors beats Paper');
-    } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-        computerScore++;
-        console.log('You Lose! Rock beats Scissors');
-    } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-        playerScore++;
-        console.log('You Won! Paper beats Rock');
-    } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-        playerScore++;
-        console.log('You Won! Scissors beats Paper');
-    } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
-        playerScore++;
-        console.log('You Won! Rock beats Scissors');
-    } else if (playerSelection === computerSelection) {
-        console.log('Tie');
+function getResult() {
+    if (userChoice === computerChoice) {
+        result = "Tie";
+    } else if ((userChoice === "rock" && computerChoice === "scissors") || (userChoice === "scissors" && computerChoice === "paper") || (userChoice === "paper" && computerChoice === "rock")) {
+        result = "You won this round!";
+        userScore++;
     } else {
-        playRound();
+        result = "You lost this round!";
+        computerScore++;
+    }
+    resultDisplay.innerHTML = result;
+    totalScorePlayer.innerHTML = `Player Total Score: ${userScore}`;
+    totalScoreComputer.innerHTML = `Player Total Score: ${computerScore}`;
+    if (userScore === 5) {
+        finalResult.innerHTML = 'YOU WON!';
+        rock.disabled = true;
+        paper.disabled = true;
+        scissors.disabled = true;
+        let newGame = document.createElement('button');
+        newGame.textContent = 'Play Again';
+        newGame.classList.add('new-game')
+        document.body.appendChild(newGame);
+        newGame.addEventListener('click', () => {
+            location.reload();
+        })
+    } else if (computerScore === 5) {
+        finalResult.innerHTML = 'YOU LOST!';
+        rock.disabled = true;
+        paper.disabled = true;
+        scissors.disabled = true;
+        let newGame = document.createElement('button');
+        newGame.textContent = 'Play Again';
+        newGame.classList.add('new-game')
+        document.body.appendChild(newGame);
+        newGame.addEventListener('click', () => {
+            location.reload();
+        })
     }
 }
-
-let game = () => {
-    while (computerScore < 5 || playerScore < 5) {
-        playRound();
-        console.log(computerScore);
-        console.log(playerScore);
-        if (computerScore === 5) {
-            return alert("Computer won!");
-        } else if (playerScore === 5) {
-            return alert("Player won!")
-        }
-    }
-}
-
-game();
